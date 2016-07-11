@@ -2,6 +2,39 @@
 <plugin id="cordova-plugin-mk-facebook" version="0.0.1" xmlns="http://apache.org/cordova/ns/plugins/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
     <name>mk-facebook</name>
     <js-module name="mk-facebook" src="www/mk-facebook.js">
-        <clobbers target="cordova.plugins.mk-facebook" />
+        <clobbers target="mkFacebook" />
     </js-module>
+    <platform name="android">
+        <config-file parent="/*" target="res/xml/config.xml">
+            <feature name="MkFacebook">
+                <param name="android-package" value="pl.kowalczyk.mariusz.cordova.MkFacebook" />
+                <param name="onload" value="true" />
+            </feature>
+            <access origin="https://m.facebook.com" />
+            <access origin="https://graph.facebook.com" />
+            <access origin="https://api.facebook.com" />
+            <access origin="https://*.fbcdn.net" />
+            <access origin="https://*.akamaihd.net" />
+            <preference name="android-minSdkVersion" value="15" />
+        </config-file>
+        <source-file src="src/android/mkfacebook.xml" target-dir="res/values" />
+        <config-file target="res/values/mkfacebook.xml" parent="/*">
+            <string name="fb_app_id">$APP_ID</string>
+            <string name="fb_app_name">$APP_NAME</string>
+        </config-file>
+
+        <config-file target="AndroidManifest.xml" parent="application">
+            <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/fb_app_id"/>
+            <meta-data android:name="com.facebook.sdk.ApplicationName" android:value="@string/fb_app_name" />
+            <activity android:name="com.facebook.FacebookActivity"
+                      android:theme="@android:style/Theme.Translucent.NoTitleBar"
+                      android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+                      android:label="@string/fb_app_name" />
+        </config-file>
+
+        <framework src="com.facebook.android:facebook-android-sdk:4.11.+"/>
+
+        <!-- cordova plugin src files -->
+        <source-file src="src/android/MkFacebook.java" target-dir="src/pl/kowalczyk/mariusz/cordova" />
+    </platform>
 </plugin>

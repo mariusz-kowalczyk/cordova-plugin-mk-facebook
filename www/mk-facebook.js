@@ -1,5 +1,7 @@
 var exec = require('cordova/exec');
 
-exports.coolMethod = function(arg0, success, error) {
-    exec(success, error, "mk-facebook", "coolMethod", [arg0]);
+exports.mkFacebook = {
+    shareScreen: function(success, error) {
+        exec(success, error, "MkFacebook", "shareScreen");
+    }
 };
