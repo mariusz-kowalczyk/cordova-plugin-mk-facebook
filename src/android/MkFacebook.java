@@ -104,7 +104,7 @@ public class MkFacebook extends CordovaPlugin {
 
     private void shareScreen(JSONArray args, CallbackContext callbackContext) {
 
-        super.cordova.getActivity().runOnUiThread(new Runnable() {
+        cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 Bitmap bitmap = getBitmap();
