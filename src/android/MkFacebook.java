@@ -46,6 +46,8 @@ import com.facebook.share.model.SharePhotoContent;
 public class MkFacebook extends CordovaPlugin {
     
     private final String TAG = "MkFacebook";
+    
+    private static final int INVALID_ERROR_CODE = -2; //-1 is FacebookRequestError.INVALID_ERROR_CODE
 
     private ShareDialog shareDialog;
     
@@ -118,7 +120,7 @@ public class MkFacebook extends CordovaPlugin {
 
                     shareDialog.show(shareContent);
                 } else {
-                    callbackContext.error("Null bitmap.");
+                    //callbackContext.error("Null bitmap.");
                 }
             }
         });
@@ -174,4 +176,60 @@ public class MkFacebook extends CordovaPlugin {
             Log.e(TAG, "Error already sent so no context, msg: " + errMsg + ", code: " + errorCode);
         }
     }
+    
+    public JSONObject getFacebookRequestErrorResponse(FacebookRequestError error) {
+
+        String response = "{"
+            + "\"errorCode\": \"" + error.getErrorCode() + "\","
+            + "\"errorType\": \"" + error.getErrorType() + "\","
+            + "\"errorMessage\": \"" + error.getErrorMessage() + "\"";
+
+        if (error.getErrorUserMessage() != null) {
+            response += ",\"errorUserMessage\": \"" + error.getErrorUserMessage() + "\"";
+        }
+
+        if (error.getErrorUserTitle() != null) {
+            response += ",\"errorUserTitle\": \"" + error.getErrorUserTitle() + "\"";
+        }
+
+        response += "}";
+
+        try {
+            return new JSONObject(response);
+        } catch (JSONException e) {
+
+            e.printStackTrace();
+        }
+        return new JSONObject();
+    }
+    
+    public JSONObject getErrorResponse(Exception error, String message, int errorCode) {
+        if (error instanceof FacebookServiceException) {
+            return getFacebookRequestErrorResponse(((FacebookServiceException) error).getRequestError());
+        }
+
+        String response = "{";
+
+        if (error instanceof FacebookDialogException) {
+            errorCode = ((FacebookDialogException) error).getErrorCode();
+        }
+
+        if (errorCode != INVALID_ERROR_CODE) {
+            response += "\"errorCode\": \"" + errorCode + "\",";
+        }
+
+        if (message == null) {
+            message = error.getMessage();
+        }
+
+        response += "\"errorMessage\": \"" + message + "\"}";
+
+        try {
+            return new JSONObject(response);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new JSONObject();
+    }
+
 }
