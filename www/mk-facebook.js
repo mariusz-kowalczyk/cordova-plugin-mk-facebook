@@ -1,7 +1,5 @@
 var exec = require('cordova/exec');
 
-exports.mkFacebook = {
-    shareScreen: function(success, error) {
-        exec(success, error, "MkFacebook", "shareScreen");
-    }
+exports.shareScreen = function shareScreen (s, f) {    
+  exec(s, f, 'MkFacebook', 'shareScreen', []);
 };

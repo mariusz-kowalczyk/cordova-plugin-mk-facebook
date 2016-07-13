@@ -97,7 +97,12 @@ public class MkFacebook extends CordovaPlugin {
     @Override
     public boolean execute(String action, JSONArray args, CallbackContext callbackContext) throws JSONException {
         if (action.equals("shareScreen")) {
-
+            if (!ShareDialog.canShow(ShareLinkContent.class)) {
+                callbackContext.error("Cannot show dialog");
+                return true;
+            }
+            showDialogContext = callbackContext;
+            
             this.shareScreen(args, callbackContext);
             return true;
         }
