@@ -110,7 +110,7 @@ public class MkFacebook extends CordovaPlugin {
             
             this.shareScreen(args, callbackContext);
             return true;
-        }else if (action.equals("shareLinkContent")) {
+        }else if (action.equals("shareLinkDialog")) {
             if (!ShareDialog.canShow(ShareLinkContent.class)) {
                 callbackContext.error("Cannot show dialog");
                 return true;
@@ -119,13 +119,13 @@ public class MkFacebook extends CordovaPlugin {
             params = args.getJSONObject(0);
             mode = parseMode(args.getString(1));
             
-            this.shareLinkContent();
+            this.shareLinkDialog();
             return true;
         }
         return false;
     }
 
-    private void shareLinkContent() {
+    private void shareLinkDialog() {
         
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
