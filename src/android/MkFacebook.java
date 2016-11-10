@@ -131,17 +131,33 @@ public class MkFacebook extends CordovaPlugin {
             @Override
             public void run() {
                 ShareLinkContent linkcontent = new ShareLinkContent.Builder();
-                if(!params.isNull("title")) {
-                    linkcontent.setContentTitle(params.getString("title"));
+                try {
+                    if(!params.isNull("title")) {
+                        linkcontent.setContentTitle(params.getString("title"));
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if(!params.isNull("description")) {
-                    linkcontent.setContentDescription(params.getString("description"));
+                try {
+                    if(!params.isNull("description")) {
+                        linkcontent.setContentDescription(params.getString("description"));
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if(!params.isNull("image")) {
-                    linkcontent.setImageUrl(Uri.parse(params.getString("image")));
+                try {
+                    if(!params.isNull("image")) {
+                        linkcontent.setImageUrl(Uri.parse(params.getString("image")));
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
                 }
-                if(!params.isNull("url")) {
-                    linkcontent.setContentUrl(Uri.parse(params.getString("url")));
+                try {
+                    if(!params.isNull("url")) {
+                        linkcontent.setContentUrl(Uri.parse(params.getString("url")));
+                    }
+                }catch (JSONException e) {
+                    e.printStackTrace();
                 }
                 
                 shareDialog.show(linkcontent, ShareDialog.Mode.FEED);
