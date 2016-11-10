@@ -10,6 +10,7 @@ import org.json.JSONObject;
 import android.graphics.Bitmap;
 import android.util.Log;
 import android.view.View;
+import android.net.Uri;
 
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
@@ -56,6 +57,10 @@ public class MkFacebook extends CordovaPlugin {
     private AppEventsLogger logger;
     
     private CallbackContext showDialogContext = null;
+    
+    private JSONObject params;
+    
+    private ShareDialog.Mode mode;
 
     @Override
     protected void pluginInitialize() {
@@ -105,10 +110,64 @@ public class MkFacebook extends CordovaPlugin {
             
             this.shareScreen(args, callbackContext);
             return true;
+        }else if (action.equals("shareLinkContent")) {
+            if (!ShareDialog.canShow(ShareLinkContent.class)) {
+                callbackContext.error("Cannot show dialog");
+                return true;
+            }
+            showDialogContext = callbackContext;
+            params = args.getJSONObject(0);
+            mode = parseMode(args.getString(1));
+            
+            this.shareLinkContent();
+            return true;
         }
         return false;
     }
 
+    private void shareLinkContent() {
+        
+        cordova.getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ShareLinkContent linkcontent = new ShareLinkContent.Builder();
+                if(!params.isNull("title")) {
+                    linkcontent.setContentTitle(params.getString("title"));
+                }
+                if(!params.isNull("description")) {
+                    linkcontent.setContentDescription(params.getString("description"));
+                }
+                if(!params.isNull("image")) {
+                    linkcontent.setImageUrl(Uri.parse(params.getString("image")));
+                }
+                if(!params.isNull("url")) {
+                    linkcontent.setContentUrl(Uri.parse(params.getString("url")));
+                }
+                
+                shareDialog.show(linkcontent, ShareDialog.Mode.FEED);
+            }
+        });
+    }
+    
+    private ShareDialog.Mode parseMode(String mode) {
+        ShareDialog.Mode _mode = ShareDialog.Mode.FEED;
+        switch(mode.toUpperCase()) {
+            case "FEED":
+                _mode = ShareDialog.Mode.FEED;
+                break;
+            case "NATIVE":
+                _mode = ShareDialog.Mode.NATIVE;
+                break;
+            case "AUTOMATIC":
+                _mode = ShareDialog.Mode.AUTOMATIC;
+                break;
+            case "WEB":
+                _mode = ShareDialog.Mode.WEB;
+                break;
+        }
+        return _mode;
+    }
+    
     private void shareScreen(JSONArray args, CallbackContext callbackContext) {
 
         cordova.getActivity().runOnUiThread(new Runnable() {
