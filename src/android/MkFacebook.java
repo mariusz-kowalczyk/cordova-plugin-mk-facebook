@@ -130,7 +130,7 @@ public class MkFacebook extends CordovaPlugin {
         cordova.getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ShareLinkContent linkcontent = new ShareLinkContent.Builder();
+                ShareLinkContent.Builder linkcontent = new ShareLinkContent.Builder();
                 try {
                     if(!params.isNull("title")) {
                         linkcontent.setContentTitle(params.getString("title"));
@@ -160,7 +160,7 @@ public class MkFacebook extends CordovaPlugin {
                     e.printStackTrace();
                 }
                 
-                shareDialog.show(linkcontent, ShareDialog.Mode.FEED);
+                shareDialog.show(linkcontent.build(), ShareDialog.Mode.FEED);
             }
         });
     }
