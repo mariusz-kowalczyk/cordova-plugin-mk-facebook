@@ -166,21 +166,19 @@ public class MkFacebook extends CordovaPlugin {
     }
     
     private ShareDialog.Mode parseMode(String mode) {
+        mode = mode.toUpperCase();
         ShareDialog.Mode _mode = ShareDialog.Mode.FEED;
-        switch(mode.toUpperCase()) {
-            case "FEED":
-                _mode = ShareDialog.Mode.FEED;
-                break;
-            case "NATIVE":
-                _mode = ShareDialog.Mode.NATIVE;
-                break;
-            case "AUTOMATIC":
-                _mode = ShareDialog.Mode.AUTOMATIC;
-                break;
-            case "WEB":
-                _mode = ShareDialog.Mode.WEB;
-                break;
+        
+        if(mode == "FEED") {
+            _mode = ShareDialog.Mode.FEED;
+        }else if(mode == "NATIVE") {
+            _mode = ShareDialog.Mode.NATIVE;
+        }else if(mode == "AUTOMATIC") {
+            _mode = ShareDialog.Mode.AUTOMATIC;
+        }else if(mode == "WEB") {
+            _mode = ShareDialog.Mode.WEB;
         }
+        
         return _mode;
     }
     
