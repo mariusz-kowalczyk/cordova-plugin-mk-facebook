@@ -1,6 +1,6 @@
 {
   "name": "cordova-plugin-mk-facebook",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cordova Plugin for share screen",
   "cordova": {
     "id": "cordova-plugin-mk-facebook",
