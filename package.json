@@ -1,0 +1,24 @@
+{
+  "name": "cordova-plugin-mk-facebook",
+  "version": "1.0.0",
+  "description": "Cordova Plugin for share screen",
+  "cordova": {
+    "id": "cordova-plugin-mk-facebook",
+    "platforms": [
+      "android"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mariusz-kowalczyk/cordova-plugin-mk-facebook"
+  },
+  "keywords": [
+    "cordova",
+    "facebook",
+    "share",
+    "screen"
+  ],
+  "author": "Mariusz Kowalczyk",
+  "license": "MIT",
+  "homepage": "https://github.com/mariusz-kowalczyk/cordova-plugin-mk-facebook#readme"
+}
